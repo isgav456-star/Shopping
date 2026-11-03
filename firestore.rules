@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // רק שני המיילים האלה יכולים לקרוא ולכתוב. החליפו אותם במיילים שלכם (באותיות קטנות).
+    function isFamily() {
+      return request.auth != null
+        && request.auth.token.email in ['isgav456@gmail.com', 'adi33321@gmail.com'];
+    }
+    match /{document=**} {
+      allow read, write: if isFamily();
+    }
+  }
+}
